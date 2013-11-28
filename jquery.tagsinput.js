@@ -172,7 +172,16 @@
                 id = $(this).attr('id');
 		$('#'+id+'_tagsinput .tag').remove();
 		$.fn.tagsInput.importTags(this,str);
-	}
+	};
+
+    // generates a uid (rfc4122 v.4 compliant)
+    $.fn.generateUID = function(){
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0;
+            var v = (c == 'x' ? r : (r&0x3|0x8));
+            return v.toString(16);
+        });
+    };
 		
 	$.fn.tagsInput = function(options) { 
     var settings = jQuery.extend({
@@ -198,7 +207,7 @@
 			}
 			var id = $(this).attr('id');
 			if (!id || delimiter[$(this).attr('id')]) {
-				id = $(this).attr('id', 'tags' + new Date().getTime()).attr('id');
+                id = $(this).attr('id', 'tags-' + $.fn.generateUID() ).attr('id');
 			}
 			
 			var data = jQuery.extend({
